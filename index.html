@@ -1,1 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel Moderno de Partidos NBA</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
 
+        .carousel {
+            display: flex;
+            overflow: hidden;
+            width: 90%;
+            max-width: 1200px;
+            position: relative;
+        }
+
+        .carousel-item {
+            flex: 0 0 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            opacity: 0;
+            transform: translateX(100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .match-content {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .team-logo {
+            width: 100px;
+            height: 100px;
+            margin: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .team-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .winner-logo {
+            width: 120px;
+            height: 120px;
+            margin-top: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-control:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .carousel-control.prev {
+            left: 10px;
+        }
+
+        .carousel-control.next {
+            right: 10px;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-indicators .indicator {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .carousel-indicators .indicator.active {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="carousel">
+    <!-- Partido 1 -->
+    <div class="carousel-item active">
+        <div class="match-content">
+            <img src="https://upload.wikimedia.org/wikipedia/en/0/0d/New_Orleans_Pelicans_logo.svg" class="team-logo" alt="Pelicans">
+            <img src="https://upload.wikimedia.org/wikipedia/en/c/c9/Detroit_Pistons_logo.svg" class="team-logo" alt="Pistons">
+            <h3>New Orleans vs Detroit</h3>
+            <p class="winner">Ganador: <span>Detroit</span></p>
+            <img src="https://upload.wikimedia.org/wikipedia/en/c/c9/Detroit_Pistons_logo.svg" class="winner-logo" alt="Ganador">
+        </div>
+    </div>
+
+    <!-- Partido 2 -->
+    <div class="carousel-item">
+        <div class="match-content">
+            <img src="https://upload.wikimedia.org/wikipedia/en/0/0e/Philadelphia_76ers_logo.svg" class="team-logo" alt="76ers">
+            <img src="https://upload.wikimedia.org/wikipedia/en/2/24/Atlanta_Hawks_logo.svg" class="team-logo" alt="Hawks">
+            <h3>Philadelphia vs Atlanta</h3>
+            <p class="winner">Ganador: <span>Philadelphia</span></p>
+            <img src="https://upload.wikimedia.org/wikipedia/en/0/0e/Philadelphia_76ers_logo.svg" class="winner-logo" alt="Ganador">
+        </div>
+    </div>
+
+    <!-- Partido 3 -->
+    <div class="carousel-item">
+        <div class="match-content">
+            <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/San_Antonio_Spurs.svg" class="team-logo" alt="Spurs">
+            <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Toronto_Raptors_logo.svg" class="team-logo" alt="Raptors">
+            <h3>San Antonio vs Toronto</h3>
+            <p class="winner">Ganador: <span>San Antonio</span></p>
+            <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/San_Antonio_Spurs.svg" class="winner-logo" alt="Ganador">
+        </div>
+    </div>
+</div>
+
+<button class="carousel-control prev" onclick="prevSlide()">&#10094;</button>
+<button class="carousel-control next" onclick="nextSlide()">&#10095;</button>
+
+<div class="carousel-indicators">
+    <div class="indicator active" onclick="goToSlide(0)"></div>
+    <div class="indicator" onclick="goToSlide(1)"></div>
+    <div class="indicator" onclick="goToSlide(2)"></div>
+</div>
+
+<script>
+    let currentIndex = 0;
+    const items = document.querySelectorAll('.carousel-item');
+    const indicators = document.querySelectorAll('.indicator');
+    const totalItems = items.length;
+
+    function showSlide(index) {
+        items.forEach((item, i) => {
+            item.classList.remove('active');
+            if (i === index) {
+                item.classList.add('active');
+            }
+        });
+
+        indicators.forEach((indicator, i) => {
+            indicator.classList.remove('active');
+            if (i === index) {
+                indicator.classList.add('active');
+            }
+        });
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalItems;
+        showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+        showSlide(currentIndex);
+    }
+
+    function goToSlide(index) {
+        currentIndex = index;
+        showSlide(currentIndex);
+    }
+
+    // Cambio automático cada 3 segundos
+    setInterval(nextSlide, 3000);
+</script>
+
+</body>
+</html>

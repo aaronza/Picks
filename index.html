@@ -20,11 +20,15 @@
         }
 
         .carousel {
-            display: flex;
-            overflow: hidden;
             width: 90%;
             max-width: 1200px;
             position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
         }
 
         .carousel-item {
@@ -32,17 +36,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-            opacity: 0;
-            transform: translateX(100%);
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .carousel-item.active {
-            opacity: 1;
-            transform: translateX(0);
+            min-width: 100%;
+            box-sizing: border-box;
         }
 
         .match-content {
@@ -51,7 +46,6 @@
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1s ease-in-out;
         }
 
         .team-logo {
@@ -70,11 +64,6 @@
             height: 120px;
             margin-top: 20px;
             animation: bounce 1s infinite;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         @keyframes bounce {
@@ -136,36 +125,38 @@
 <body>
 
 <div class="carousel">
-    <!-- Partido 1 -->
-    <div class="carousel-item active">
-        <div class="match-content">
-            <img src="https://upload.wikimedia.org/wikipedia/en/0/0d/New_Orleans_Pelicans_logo.svg" class="team-logo" alt="Pelicans">
-            <img src="https://upload.wikimedia.org/wikipedia/en/c/c9/Detroit_Pistons_logo.svg" class="team-logo" alt="Pistons">
-            <h3>New Orleans vs Detroit</h3>
-            <p class="winner">Ganador: <span>Detroit</span></p>
-            <img src="https://upload.wikimedia.org/wikipedia/en/c/c9/Detroit_Pistons_logo.svg" class="winner-logo" alt="Ganador">
+    <div class="carousel-inner">
+        <!-- Partido 1 -->
+        <div class="carousel-item">
+            <div class="match-content">
+                <img src="https://upload.wikimedia.org/wikipedia/en/0/0d/New_Orleans_Pelicans_logo.svg" class="team-logo" alt="Pelicans">
+                <img src="fescarga.png" class="team-logo" alt="Pistons">
+                <h3>New Orleans vs Detroit</h3>
+                <p class="winner">Ganador: <span>Detroit</span></p>
+                <img src="descarga.png" class="winner-logo" alt="Ganador">
+            </div>
         </div>
-    </div>
 
-    <!-- Partido 2 -->
-    <div class="carousel-item">
-        <div class="match-content">
-            <img src="https://upload.wikimedia.org/wikipedia/en/0/0e/Philadelphia_76ers_logo.svg" class="team-logo" alt="76ers">
-            <img src="https://upload.wikimedia.org/wikipedia/en/2/24/Atlanta_Hawks_logo.svg" class="team-logo" alt="Hawks">
-            <h3>Philadelphia vs Atlanta</h3>
-            <p class="winner">Ganador: <span>Philadelphia</span></p>
-            <img src="https://upload.wikimedia.org/wikipedia/en/0/0e/Philadelphia_76ers_logo.svg" class="winner-logo" alt="Ganador">
+        <!-- Partido 2 -->
+        <div class="carousel-item">
+            <div class="match-content">
+                <img src="https://upload.wikimedia.org/wikipedia/en/0/0e/Philadelphia_76ers_logo.svg" class="team-logo" alt="76ers">
+                <img src="https://upload.wikimedia.org/wikipedia/en/2/24/Atlanta_Hawks_logo.svg" class="team-logo" alt="Hawks">
+                <h3>Philadelphia vs Atlanta</h3>
+                <p class="winner">Ganador: <span>Philadelphia</span></p>
+                <img src="https://upload.wikimedia.org/wikipedia/en/0/0e/Philadelphia_76ers_logo.svg" class="winner-logo" alt="Ganador">
+            </div>
         </div>
-    </div>
 
-    <!-- Partido 3 -->
-    <div class="carousel-item">
-        <div class="match-content">
-            <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/San_Antonio_Spurs.svg" class="team-logo" alt="Spurs">
-            <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Toronto_Raptors_logo.svg" class="team-logo" alt="Raptors">
-            <h3>San Antonio vs Toronto</h3>
-            <p class="winner">Ganador: <span>San Antonio</span></p>
-            <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/San_Antonio_Spurs.svg" class="winner-logo" alt="Ganador">
+        <!-- Partido 3 -->
+        <div class="carousel-item">
+            <div class="match-content">
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/San_Antonio_Spurs.svg" class="team-logo" alt="Spurs">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Toronto_Raptors_logo.svg" class="team-logo" alt="Raptors">
+                <h3>San Antonio vs Toronto</h3>
+                <p class="winner">Ganador: <span>San Antonio</span></p>
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/San_Antonio_Spurs.svg" class="winner-logo" alt="Ganador">
+            </div>
         </div>
     </div>
 </div>
@@ -181,18 +172,16 @@
 
 <script>
     let currentIndex = 0;
+    const carouselInner = document.querySelector('.carousel-inner');
     const items = document.querySelectorAll('.carousel-item');
     const indicators = document.querySelectorAll('.indicator');
     const totalItems = items.length;
 
     function showSlide(index) {
-        items.forEach((item, i) => {
-            item.classList.remove('active');
-            if (i === index) {
-                item.classList.add('active');
-            }
-        });
+        // Mueve el carrusel horizontalmente
+        carouselInner.style.transform = `translateX(-${index * 100}%)`;
 
+        // Actualiza los indicadores
         indicators.forEach((indicator, i) => {
             indicator.classList.remove('active');
             if (i === index) {
